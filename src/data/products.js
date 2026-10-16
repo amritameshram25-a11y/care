@@ -1,8 +1,18 @@
-const image = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=700&q=85`
+const image = () => '/marks.jpeg'
+import cleanserImage from '../assets/cleanser.svg'
+import serumImage from '../assets/serum.svg'
+import moisturizerImage from '../assets/moisturizer.svg'
+import sunscreenImage from '../assets/sunscreen.svg'
+import faceMaskImage from '../assets/face-mask.svg'
+import bodyCareImage from '../assets/body-care.svg'
+import makeupImage from '../assets/makeup.svg'
+import giftSetsImage from '../assets/gift-sets.svg'
+
+const categoryAssets = { Cleansers: cleanserImage, Serums: serumImage, Moisturizers: moisturizerImage, Sunscreen: sunscreenImage, 'Face Masks': faceMaskImage, 'Body Care': bodyCareImage, Makeup: makeupImage, 'Gift Sets': giftSetsImage }
 
 export const categories = ['Cleansers', 'Moisturizers', 'Serums', 'Sunscreen', 'Face Masks', 'Body Care', 'Makeup', 'Gift Sets']
 
-export const products = [
+const rawProducts = [
   { id: 1, name: 'Gentle Foaming Cleanser', category: 'Cleansers', description: 'A soft, low-foam wash for calm, fresh skin.', price: 649, oldPrice: 799, rating: 4.8, reviews: 126, image: image('photo-1556228720-195a672e8a03'), badge: 'Bestseller' },
   { id: 2, name: 'Vitamin C Face Serum', category: 'Serums', description: 'Brightening drops with a smooth, weightless finish.', price: 899, oldPrice: 1199, rating: 4.9, reviews: 208, image: image('photo-1620916566398-39f1143ab7be'), badge: 'New' },
   { id: 3, name: 'Hydrating Daily Moisturizer', category: 'Moisturizers', description: 'Cushiony hydration for a dewy everyday glow.', price: 749, oldPrice: 899, rating: 4.7, reviews: 94, image: image('photo-1611930022073-b7a4ba5fcccd'), badge: 'Bestseller' },
@@ -29,6 +39,22 @@ export const products = [
   { id: 24, name: 'The Complete Glow Ritual', category: 'Gift Sets', description: 'Our signature seven-piece routine in one set.', price: 1899, oldPrice: 2299, rating: 5, reviews: 28, image: image('photo-1556229010-6c3f2c9ca5f8'), badge: 'Bestseller' },
 ]
 
+export const products = rawProducts.map((product) => ({
+  ...product,
+  image: categoryAssets[product.category] || product.image,
+  brand: 'Glowify',
+  originalPrice: product.oldPrice,
+  discount: Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100),
+  reviewCount: product.reviews,
+  ingredients: 'Botanical extracts, skin-loving vitamins and gentle emollients.',
+  skinType: 'All skin types',
+  benefits: product.description,
+  howToUse: 'Apply to clean skin and massage gently until absorbed.',
+  size: '50 ml',
+  stock: 24,
+  tags: [product.category, product.badge, product.name].filter(Boolean),
+}))
+
 export const categoryImages = {
-  Cleansers: image('photo-1556228720-195a672e8a03'), Moisturizers: image('photo-1611930022073-b7a4ba5fcccd'), Serums: image('photo-1620916566398-39f1143ab7be'), Sunscreen: image('photo-1556228578-8c89e6adf883'), 'Face Masks': image('photo-1570194065650-d99fb4bedf0a'), 'Body Care': image('photo-1608248597279-f99d160bfcbc'), Makeup: image('photo-1586495777744-4413f21062fa'), 'Gift Sets': image('photo-1547887538-e3a2f32cb1cc'),
+  ...categoryAssets,
 }
